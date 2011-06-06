@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Geolocation Demo</title>
+  </head>
+  <body>
+  </body>
+<script type="text/javascript">
+  window.onload = function() {
+    // check for Geolocation support
+    if (navigator.geolocation) {
+      console.log('Geolocation is supported!');
+      navigator.geolocation.getCurrentPosition(showPosition, geoError);
+    }
+    else {
+      console.log('Geolocation is not supported for this Browser/OS version yet.');
+    }
+  };
+  function showPosition(position) {
+    alert("Geolocation Position\nLat: " + position.coords.latitude +
+      "\nLong: " + position.coords.longitude);
+  };
+  function geoError(error) {
+    alert("Geolocation error: " + error);
+  };
+</script>
+</html>

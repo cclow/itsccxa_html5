@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Geolocation Demo</title>
+    <style>
+      html, #map_canvas { width: 100%; height: 100%; }
+      body { width: 98%; height: 98%; }
+    </style>
+  </head>
+  <body onload="initialize()">
+    <div id="map_canvas"></div>
+  </body>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+  var map;
+  var mapLocation;
+  var infowindow = new google.maps.InfoWindow();
+  function showPosition(position) {
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;
+
+    mapLocation = new google.maps.LatLng(lat, lng);
+    map.setCenter(mapLocation);
+    infowindow.setContent(lat + ", " + lng);
+    infowindow.setPosition(mapLocation);
+    infowindow.open(map);
+  };
+  function geoError(error) {
+    alert("Geolocation error: " + error);
+  };
+  function initialize() {
+    var mapOptions = {
+      zoom: 13,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    // check for Geolocation support
+    if (navigator.geolocation) {
+      console.log('Geolocation is supported!');
+      navigator.geolocation.getCurrentPosition(showPosition, geoError);
+      navigator.geolocation.watchPosition(showPosition);
+    }
+    else {
+      console.log('Geolocation is not supported for this Browser/OS version yet.');
+    }
+  };
+</script>
+</html>
