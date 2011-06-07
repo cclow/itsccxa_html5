@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Audio Demo</title>
+  </head>
+  <body>
+    <h1>Audio With Control Button</h1>
+    <audio id="music">
+      <source src="test.mp3"; type="audio/mpeg" >
+      <source src="test.ogg"; type="audio/ogg" >
+      Audio tag not supported. Download the audio <a href="test.mp3">here</a>.
+    </audio>
+    <button id="play">Play</button>
+    <button id="pause">Pause</button>
+    <button id="duration">Show duration</button>
+    <div id="duration-log"></div>
+  </body>
+<script>
+  var song = document.getElementById('music');
+  document.getElementById('play').addEventListener('click', function() { song.play(); }, false);
+  document.getElementById('pause').addEventListener('click', function() { song.pause(); }, false);
+  document.getElementById('duration').addEventListener('click', function() { document.querySelector('#duration-log').textContent = song.duration; }, false);
+</script>
+</html>
