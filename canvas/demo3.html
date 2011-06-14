@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Canvas Demo</title>
+  </head>
+  <body>
+    <h1>Canvas Demo</h1>
+    <canvas id="slate" width="500" height="300"></canvas>
+  </body>
+<script type="text/javascript">
+  var slate = document.getElementById("slate");
+  var context = slate.getContext("2d");
+  window.onload = function() {
+    var text = "Hello world!";
+    var blur = 5;
+    context.font = "bold 48px sans-serif";
+    var width = context.measureText(text).width + blur * 2;
+    context.textBaseline = "top"
+    context.fillText(text, 0, 0);
+    context.shadowColor = "#000"
+    context.shadowOffsetX = width;
+    context.shadowOffsetY = 0;
+    context.shadowBlur = blur;
+    context.fillText(text, -width, 0);
+  };
+</script>
+</html>

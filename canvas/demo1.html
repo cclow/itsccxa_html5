@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Canvas Demo</title>
+  </head>
+  <body>
+    <h1>Canvas Demo</h1>
+    <canvas id="slate" width="500" height="300"></canvas>
+  </body>
+<script type="text/javascript">
+  var slate = document.getElementById("slate");
+  var context = slate.getContext("2d");
+  window.onload = function() {
+    for (var y = 0.5; y < slate.height; y += 20) {
+      context.moveTo(0, y);
+      context.lineTo(slate.width, y);
+    }
+    for (var x = 0.5; x < slate.width; x += 20) {
+      context.moveTo(x, 0);
+      context.lineTo(x, slate.height);
+    }
+    context.strokeStyle = "#bbb";
+    context.stroke();
+    context.textBaseline = "top";
+    context.font = "24px san-serif";
+    context.fillText("(0,0)", 5, 5);
+  };
+</script>
+</html>
