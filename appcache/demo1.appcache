@@ -1,0 +1,11 @@
+CACHE MANIFEST
+# VERSION: 1
+# main cache section
+# CACHE:
+demo1.html
+
+NETWORK:
+http://api.twitter.com
+
+FALLBACK:
+star.png offline.png

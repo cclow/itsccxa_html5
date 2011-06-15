@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" manifest="demo1.appcache">
+  <head>
+    <meta charset="utf-8">
+    <title>AppCache Demo</title>
+    <style>
+      body, p, textarea, input, button { font: 18px Verdana; }
+      textarea { width: 200px; height: 150px; display: block; }
+      .error { font-weight: bold; color: red; }
+    </style>
+  </head>
+  <body>
+    <h1>AppCache Demo</h1>
+    <img src="star.png"></img>
+    <p>Save data on the client</p>
+    <input type="text" id="new-todo" placeholder="Enter todo item here..."></input>
+    <button id="create-table">Create Table</button>
+    <button id="drop-table">Drop Table</button>
+    <button id="save-todo">Save Todo Item</button>
+    <div id="log"></div>
+    <h3>Todo List</h3>
+    <ul id="todo-list"></ul>
+    <script type="text/javascript">
+      window.onload = function() {
+        var db;
+        var log = document.getElementById("log");
+        var saveButton = document.getElementById("save-todo");
+        var createButton = document.getElementById("create-table");
+        var dropButton = document.getElementById("drop-table");
+        var newTodo = document.getElementById("new-todo");
+        var todoList = document.getElementById("todo-list");
+        function displayLog(message) {
+          log.innerHTML = "<p>" + message + "</p>";
+        }
+        function displayError(message) {
+          log.innerHTML = "<p class='error'>Error: " + message + "</p>";
+        }
+        function onError(tx, error) {
+          displayError(error.message);
+        }
+        //
+        function showTodoList() {
+          todoList.innerHTML = '';
+          db.transaction( function(tx) {
+              tx.executeSql("SELECT * FROM Todos;", [],
+                function(tx, result) {
+                  for (var i=0; i < result.rows.length; i++) {
+                    var item = result.rows.item(i);
+                    todoList.innerHTML += "<li class='todo-item'>" + item['todo'] + "</li>";
+                  }
+                }, onError);
+          });
+        }
+        // check for sql database support
+        if (window.openDatabase) {
+          console.log('Database Storage is supported!');
+          db = openDatabase("TodoDB", "1.0", "My Todo App DB", 2*1024*1024);
+          showTodoList();
+        }
+        else {
+          console.log('Database Storage is not supported for this Browser/OS version yet.');
+          return;
+        }
+        //
+        function createTable() {
+          db.transaction( function(tx) {
+              tx.executeSql(
+                "CREATE TABLE IF NOT EXISTS Todos (id INTEGER PRIMARY KEY AUTOINCREMENT, todo TEXT);",
+                [], function(tx) { displayLog("Table Todos created"); }, onError);
+          });
+        }
+        createButton.addEventListener('click', createTable, false);
+        //
+        function dropTable() {
+          db.transaction( function(tx) {
+              tx.executeSql(
+                "DROP TABLE Todos;",
+                [], function(tx) { displayLog("Table Todos dropped"); }, onError);
+          });
+          todoList.innerHTML = '';
+        }
+        dropButton.addEventListener('click', dropTable, false);
+        //
+        function saveTodo() {
+          db.transaction( function(tx) {
+              tx.executeSql(
+                "INSERT INTO Todos (todo) VALUES (?);", [newTodo.value],
+                showTodoList, onError);
+          });
+        }
+        saveButton.addEventListener('click', saveTodo, false);
+      };
+    </script>
+  </body>
+</html>
