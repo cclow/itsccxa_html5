@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Local Storage Demo</title>
+    <style>
+      body, p, textarea, input, button { font: 18px Verdana; }
+      textarea { width: 200px; height: 150px; display: block; }
+    </style>
+  </head>
+  <body>
+    <h1>Local Storage Demo</h1>
+    <p>Save data on the client</p>
+    <textarea id="ta" placeholder="Enter text here..."></textarea>
+    <button id="save-ta">Save</button>
+    <button id="clear-ta">Clear</button>
+    <p id="saved-log"></p>
+    <script type="text/javascript">
+      window.onload = function() {
+        var savedLog = document.getElementById("saved-log");
+        var saveButton = document.getElementById("save-ta");
+        var clearButton = document.getElementById("clear-ta");
+        var textArea = document.getElementById("ta");
+        var timestamp = window.localStorage.getItem('timestamp');
+        function displaySavedTime(savedTime) {
+          savedLog.textContent = "Last saved " +
+            ((new Date()).getTime() - savedTime)/1000 + " seconds ago";
+        }
+        // check for local storage support
+        if (window.localStorage) {
+          console.log('Local Storage is supported!');
+        }
+        else {
+          console.log('Local Storage is not supported for this Browser/OS version yet.');
+          return;
+        }
+        if (timestamp) {
+          displaySavedTime(timestamp);
+        }
+        saveButton.addEventListener('click', function () {
+          window.localStorage.setItem('value', textArea.value);
+          timestamp = (new Date()).getTime();
+          window.localStorage.setItem('timestamp', timestamp);
+          displaySavedTime((new Date()).getTime());
+        }, false);
+        clearButton.addEventListener('click', function () {
+          window.localStorage.removeItem('value');
+          textArea.value = null;
+          timestamp = (new Date()).getTime();
+          window.localStorage.setItem('timestamp', timestamp);
+          displaySavedTime((new Date()).getTime());
+        }, false);
+        if (!textArea.value) {
+          textArea.value = window.localStorage.getItem('value');
+        }
+      };
+    </script>
+  </body>
+</html>
