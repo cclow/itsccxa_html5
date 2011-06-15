@@ -10,15 +10,15 @@
   <body>
     <h1>Canvas Demo</h1>
     <canvas id="slate" width="500" height="300"></canvas>
+    <script type="text/javascript">
+      var slate = document.getElementById("slate");
+      var context = slate.getContext("2d");
+      window.onload = function() {
+        context.strokeStyle = "red";
+        context.strokeRect(0, 0, slate.width, slate.height);
+        context.fillStyle = "#88f";
+        context.fillRect(50, 25, 150, 100);
+      };
+    </script>
   </body>
-<script type="text/javascript">
-  var slate = document.getElementById("slate");
-  var context = slate.getContext("2d");
-  window.onload = function() {
-    context.strokeStyle = "red";
-    context.strokeRect(0, 0, slate.width, slate.height);
-    context.fillStyle = "#88f";
-    context.fillRect(50, 25, 150, 100);
-  };
-</script>
 </html>

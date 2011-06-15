@@ -5,16 +5,16 @@
     <title>Geolocation Demo</title>
   </head>
   <body>
+    <script type="text/javascript">
+      window.onload = function() {
+        // check for Geolocation support
+        if (navigator.geolocation) {
+          console.log('Geolocation is supported!');
+        }
+        else {
+          console.log('Geolocation is not supported for this Browser/OS version yet.');
+        }
+      };
+    </script>
   </body>
-<script type="text/javascript">
-  window.onload = function() {
-    // check for Geolocation support
-    if (navigator.geolocation) {
-      console.log('Geolocation is supported!');
-    }
-    else {
-      console.log('Geolocation is not supported for this Browser/OS version yet.');
-    }
-  };
-</script>
 </html>

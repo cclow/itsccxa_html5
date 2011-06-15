@@ -14,29 +14,29 @@
       <span id=currentAccuracy>???</span>m
     </div>
     <button id="stop">Stop Geolocation</button>
+    <script type="text/javascript">
+      var watchId;
+      document.getElementById('stop').addEventListener('click',
+        function() { navigator.geolocation.clearWatch(watchId); }, false);
+      window.onload = function() {
+        // check for Geolocation support
+        if (navigator.geolocation) {
+          console.log('Geolocation is supported!');
+          navigator.geolocation.getCurrentPosition(showPosition, geoError);
+          watchId = navigator.geolocation.watchPosition(showPosition);
+        }
+        else {
+          console.log('Geolocation is not supported for this Browser/OS version yet.');
+        }
+      };
+      function showPosition(position) {
+        document.getElementById('currentLat').innerHTML = position.coords.latitude;
+        document.getElementById('currentLong').innerHTML = position.coords.longitude;
+        document.getElementById('currentAccuracy').innerHTML = position.coords.accuracy;
+      };
+      function geoError(error) {
+        alert("Geolocation error: " + error);
+      };
+    </script>
   </body>
-<script type="text/javascript">
-  var watchId;
-  document.getElementById('stop').addEventListener('click',
-    function() { navigator.geolocation.clearWatch(watchId); }, false);
-  window.onload = function() {
-    // check for Geolocation support
-    if (navigator.geolocation) {
-      console.log('Geolocation is supported!');
-      navigator.geolocation.getCurrentPosition(showPosition, geoError);
-      watchId = navigator.geolocation.watchPosition(showPosition);
-    }
-    else {
-      console.log('Geolocation is not supported for this Browser/OS version yet.');
-    }
-  };
-  function showPosition(position) {
-    document.getElementById('currentLat').innerHTML = position.coords.latitude;
-    document.getElementById('currentLong').innerHTML = position.coords.longitude;
-    document.getElementById('currentAccuracy').innerHTML = position.coords.accuracy;
-  };
-  function geoError(error) {
-    alert("Geolocation error: " + error);
-  };
-</script>
 </html>

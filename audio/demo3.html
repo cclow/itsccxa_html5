@@ -18,11 +18,11 @@
     <button id="pause">Pause</button>
     <button id="duration">Show duration</button>
     <div id="duration-log"></div>
+    <script>
+      var song = document.getElementById('music');
+      document.getElementById('play').addEventListener('click', function() { song.play(); }, false);
+      document.getElementById('pause').addEventListener('click', function() { song.pause(); }, false);
+      document.getElementById('duration').addEventListener('click', function() { document.querySelector('#duration-log').textContent = song.duration; }, false);
+    </script>
   </body>
-<script>
-  var song = document.getElementById('music');
-  document.getElementById('play').addEventListener('click', function() { song.play(); }, false);
-  document.getElementById('pause').addEventListener('click', function() { song.pause(); }, false);
-  document.getElementById('duration').addEventListener('click', function() { document.querySelector('#duration-log').textContent = song.duration; }, false);
-</script>
 </html>
