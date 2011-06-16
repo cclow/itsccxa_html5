@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Drag and Drop Demo</title>
+    <style>
+      body, p, textarea, input, button { font: 18px Verdana; }
+      textarea { width: 200px; height: 150px; display: block; }
+      /* Prevent the text contents of draggable elements from being selectable. */
+      [draggable] {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      .area {
+        height: 150px;
+        width: 150px;
+        float: left;
+        border: 2px solid #666666;
+        background-color: #ccc;
+        margin-right: 5px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 3px #000;
+        box-shadow: inset 0 0 3px #000;
+        text-align: center;
+        cursor: move;
+      }
+      .area header {
+        color: #fff;
+        text-shadow: #000 0 1px;
+        box-shadow: 5px;
+        padding: 5px;
+        background: -moz-linear-gradient(left center, rgb(0,0,0), rgb(79,79,79), rgb(21,21,21));
+        background: -webkit-gradient(linear, left top, right top,
+                                     color-stop(0, rgb(0,0,0)),
+                                     color-stop(0.50, rgb(79,79,79)),
+                                     color-stop(1, rgb(21,21,21)));
+        border-bottom: 1px solid #ddd;
+        -webkit-border-top-left-radius: 10px;
+        -moz-border-radius-topleft: 10px;
+        border-top-left-radius: 10px;
+        -webkit-border-top-right-radius: 10px;
+        -moz-border-radius-topright: 10px;
+        border-top-right-radius: 10px;
+      }
+      .area.dragging {
+        opacity: 0.4;
+      }
+      .area.over {
+        border: 2px dashed red;
+        background-color: #99F;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Drag and Drop Demo</h1>
+    <div id="areas">
+      <div id="area-a" class="area" draggable="true">
+        <header>A</header>
+      </div>
+      <div id="area-b" class="area" draggable="true">
+        <header>B</header>
+      </div>
+      <div id="area-c" class="area" draggable="true">
+        <header>C</header>
+      </div>
+    </div>
+    <script type="text/javascript">
+      (function() {
+        var areas = document.querySelectorAll('#areas .area');
+        var dragSrc = null;
+        this.handleDragStart = function(e) {
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/html', this.innerHTML);
+          dragSrc = this;
+          this.classList.add('dragging');
+        };
+        //
+        this.handleDragOver = function(e) {
+          if (e.preventDefault) {
+            e.preventDefault(); // Necessary. Allows us to drop.
+          }
+          e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+          return false;
+        };
+        //
+        this.handleDragEnter = function(e) {
+          this.classList.add('over');
+        }
+        this.handleDragLeave = function(e) {
+          this.classList.remove('over');  // this / e.target is previous target element.
+        };
+        //
+        this.handleDrop = function(e) {
+          if (e.stopPropagation) {
+            e.stopPropagation(); // stops the browser from redirecting.
+          }
+          if (dragSrc != this) {
+              // Set the source column's HTML to the HTML of the columnwe dropped on.
+              dragSrc.innerHTML = this.innerHTML;
+              this.innerHTML = e.dataTransfer.getData('text/html');
+          }
+          return false;
+        };
+        //
+        this.handleDragEnd = function(e) {
+          [].forEach.call(areas, function (area) {
+            area.classList.remove('over');
+          });
+          this.classList.remove('dragging');
+        };
+        [].forEach.call(areas, function(area) {
+          area.setAttribute('draggable', true);
+          area.addEventListener('dragstart', this.handleDragStart, false);
+          area.addEventListener('dragover', this.handleDragOver, false);
+          area.addEventListener('dragenter', this.handleDragEnter, false);
+          area.addEventListener('dragleave', this.handleDragLeave, false);
+          area.addEventListener('drop', this.handleDrop, false);
+          area.addEventListener('dragend', this.handleDragEnd, false);
+        });
+      })();
+    </script>
+  </body>
+</html>
