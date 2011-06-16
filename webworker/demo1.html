@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Web Workers Demo</title>
+    <style>
+      html, #map_canvas { width: 100%; height: 100%; }
+      body { width: 98%; height: 98%; }
+      body, p, textarea, input, button { font: 18px Verdana; }
+      .overlay {
+        width: 200px;
+        height: 100px;
+        float: left;
+        background-color: #eee;
+        padding: 20px;
+        border: 2px solid #999;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Web Workers Demo</h1>
+    <div class='overlay' id="overlay1"></div>
+    <div class='overlay' id="overlay2"></div>
+    <script type="text/javascript">
+      window.onload = function() {
+        //
+        var count1 = 0;
+        var count2 = 0;
+        var overlay1 = document.getElementById('overlay1');
+        var overlay2 = document.getElementById('overlay2');
+        var worker1 = new Worker('prime.js');
+        worker1.onmessage = function(event) {
+          count1 += 1;
+          overlay1.innerHTML = event.data +
+            '<p>Count: ' + count1 + '</p>';
+        };
+        var worker2 = new Worker('prime.js');
+        worker2.onmessage = function(event) {
+          count2 += 1;
+          overlay2.innerHTML = event.data +
+            '<p>Count: ' + count2 + '</p>';
+        };
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Web Workers Demo</title>
+    <style>
+      html, #map_canvas { width: 100%; height: 100%; }
+      body { width: 98%; height: 98%; }
+      body, p, textarea, input, button { font: 18px Verdana; }
+      #result {
+        width: 300px;
+        height: 100px;
+        display: block;
+        margin-top: 20px;
+        padding: 20px;
+        border: 2px solid #999;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Web Workers Demo</h1>
+    <button id='say-hi'>Say Hi</button>
+    <button id='unknown'>Foobar</button>
+    <button id='stop'>Stop Worker</button>
+    <textarea id='result'></textarea>
+    <script id='dialog-worker' type='javascript/worker'>
+      self.addEventListener('message', function(e) {
+          var data = e.data;
+          switch (data.cmd) {
+          case 'say':
+            self.postMessage('Worker say: ' + data.msg);
+            break;
+          case 'stop':
+            self.postMessage('Worker stopped: ' + data.msg);
+            self.close();
+            break;
+          default:
+            self.postMessage('Unknown command: ' + data.cmd + '\nMesg: ' +data.msg);
+          };
+        }, false);
+    </script>
+    <script type="text/javascript">
+      window.onload = function() {
+        //
+        window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+        window.URL = window.URL || window.webkitURL;
+        var bb = new window.BlobBuilder();
+        bb.append(document.querySelector('#dialog-worker').textContent);
+        //
+        var result = document.getElementById('result');
+        var worker = new Worker(window.URL.createObjectURL(bb.getBlob()));
+        worker.onmessage = function(event) {
+          result.textContent = event.data;
+        };
+        document.getElementById('say-hi').onclick = function(e) {
+          worker.postMessage({'cmd': 'say', 'msg': 'Hi'});
+        }
+        document.getElementById('stop').onclick = function(e) {
+          worker.postMessage({'cmd': 'stop', 'msg': 'No more!'});
+        }
+        document.getElementById('unknown').onclick = function(e) {
+          worker.postMessage({'cmd': 'Foobar', 'msg': 'WTH'});
+        }
+      };
+    </script>
+  </body>
+</html>
