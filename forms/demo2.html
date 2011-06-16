@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <meta charset="utf-8">
+    <title>Input Attributes</title>
+    <style>
+      body, p, textarea, input, button { font: 18px Verdana; }
+      input { display: block; margin: 10px; }
+      :invalid { border: 1px solid red; color: #ff8888; }
+    </style>
+  </head>
+  <body>
+    <h1>Input Attributes</h1>
+    <form>
+      <h2>Placeholder</h2>
+      <input name='name' placeholder='Placeholder Text...'>
+      <h2>Autofocus</h2>
+      <input name='address' autofocus>
+      <h2>Required</h2>
+      <input name='important' required>
+      <h2>Validate</h2>
+      <input name='validated' validate pattern='[A-Za-z][0-9]{4}' placeholder='letter followed by 4 digits'>
+      <input type='submit' value='Submit'>
+    </form>
+  </body>
+</html>
