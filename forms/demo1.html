@@ -11,9 +11,25 @@
     <h1>Progress and Meter</h1>
     <h2>Progress Bar</h2>
     <progress id='progress' max='100' value='25'>25</progress>
+    <h2>Progress Bar with Javascript</h2>
+    <progress id='progress-javascript' min='0' max='100'></progress>
     <h2>Meter</h2>
     <meter id='meter' value='0.45'>45%</meter>
     <h3>Meter: Out of Optimum Range</h3>
-    <meter id='meter' value='0.2' low='0.4' high='0.6'>20%</meter>
+    <meter id='meter-range' value='0.2' low='0.4' high='0.6'>20%</meter>
+    <h3>Meter with Javascript</h3>
+    <meter id='meter-javascript' low='0.3' high='0.7'></meter>
+    <script type='text/javascript'>
+      window.onload = function() {
+        var progressJS = document.getElementById('progress-javascript');
+        setInterval( function() {
+          progressJS.value = Math.random() * 100;
+        }, 1000);
+        var meterJS = document.getElementById('meter-javascript');
+        setInterval( function() {
+          meterJS.value = Math.random();
+        }, 1000);
+      };
+    </script>
   </body>
 </html>
